@@ -25,4 +25,4 @@ jobs:
     - name: Maven clean
       run: mvn clean --file my-app/pom.xml
     - name: Maven package
-      run: mvn -B package --file my-app/pom.xml
+      run: mvn -B -e package --file my-app/pom.xml
