@@ -31,6 +31,9 @@ jobs:
     - name: Package with Maven
       run: mvn -B package --file my-app/pom.xml
     - uses: actions/setup-java@v3
+      with:
+        java-version: '8'
+        distribution: 'temurin'
     - run: mkdir artifacts && cp target/*.jar artifacts
     - name: Copy to artifacts dir
       uses: actions/upload-artifact@v3
