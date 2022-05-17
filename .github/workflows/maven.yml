@@ -23,6 +23,6 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Maven clean
-      run: mvn clean
+      run: mvn clean --file my-app/pom.xml
     - name: Maven package
       run: mvn -B package --file my-app/pom.xml
