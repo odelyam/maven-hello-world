@@ -34,7 +34,7 @@ jobs:
       with:
         java-version: '8'
         distribution: 'temurin'
-    - run: mkdir artifacts && cp target/*.jar artifacts
+    - run: mkdir artifacts && cp my-app/target/*.jar artifacts
     - name: Copy to artifacts dir
       uses: actions/upload-artifact@v3
       with:
