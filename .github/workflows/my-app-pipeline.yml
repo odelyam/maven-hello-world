@@ -38,6 +38,6 @@ jobs:
     - name: Copy to artifacts dir
       uses: actions/upload-artifact@v3
       with:
-        name: Package
+        #name: Package
         path: artifacts
       
