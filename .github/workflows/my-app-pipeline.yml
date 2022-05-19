@@ -75,7 +75,7 @@ jobs:
       run: |
         pwd
         ls
-        docker build -t odelyala/my-app:${{ needs.build.outputs.final_version }} .
+        docker build -t odelyala/my-app:${{ needs.build.outputs.final_version }} ../
     
     - name: Docker hub login
       uses: docker/login-action@v2
