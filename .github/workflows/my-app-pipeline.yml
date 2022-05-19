@@ -48,7 +48,7 @@ jobs:
       run: mvn -B package --file my-app/pom.xml
     
     - name: Copy jar 
-    - uses: actions/setup-java@v3
+      uses: actions/setup-java@v3
       with:
         java-version: '8'
         distribution: 'temurin'
