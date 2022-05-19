@@ -73,7 +73,8 @@ jobs:
         
     - name: Build docker image
       run: |
-        docker build ./my-app/ -t odelyala/my-app:${{ needs.build.outputs.final_version }} 
+        pwd
+        docker build . -t odelyala/my-app:${{ needs.build.outputs.final_version }} 
     
     - name: Docker hub login
       uses: docker/login-action@v2
