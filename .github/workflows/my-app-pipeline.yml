@@ -57,6 +57,30 @@ jobs:
     - name: Copy to artifacts dir
       uses: actions/upload-artifact@v3
       with:
-        name: my-artifact
+        name: my-app-artifact
         path: artifacts
-      
+ 
+ 
+  deploy:  
+    runs-on: ubuntu-latest
+    needs: build
+    
+    steps:
+    - name: Download the artifact
+      uses: actions/download-artifact@v3
+      with:
+        name: my-app-artifact
+        
+    - name: Build docker image
+      run: |
+        docker build . -t odelyala/my-app:${{ needs.build.outputs.final_version }} 
+    
+    - name: Docker hub login
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKER_HUB_USER }}
+        password: ${{ secrets.DOCKER_HUB_PASS }
+        
+    - name: Push docker image
+      run: |
+        docker push odelyala/my-app:${{ needs.build.outputs.final_version }}
