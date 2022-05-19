@@ -46,26 +46,12 @@ jobs:
     
     - name: Package with Maven
       run: mvn -B package --file my-app/pom.xml
-    
-    - name: Copy jar 
-      uses: actions/setup-java@v3
-      with:
-        java-version: '8'
-        distribution: 'temurin'
-    - run: mkdir artifacts && cp my-app/target/*.jar artifacts
-    
-    - name: Copy to artifacts dir
+     
+    - name: Upload artifacts
       uses: actions/upload-artifact@v3
       with:
         name: my-app-artifact
-        path: artifacts
- 
-     
-    #- name: Upload artifacts
-    #  uses: actions/upload-artifact@v3
-    #  with:
-    #    name: my-app-artifact
-    #    path: ${{ github.workspace }}/my-app/target/*.jar
+        path: ${{ github.workspace }}/my-app/target/*.jar
  
   docker-deploy:  
     runs-on: ubuntu-latest
@@ -76,7 +62,7 @@ jobs:
     - uses: actions/download-artifact@v3
       with:
         name: my-app-artifact
-        path: artifacts
+        path: target/
     - name: Build docker image
       run: |
         docker build -t odelyala/my-app:${{ needs.build.outputs.final_version }} .
