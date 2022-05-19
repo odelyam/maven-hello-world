@@ -73,8 +73,8 @@ jobs:
     
     steps:
     - name: Download the artifact
-    - uses: actions/checkout@v3
-    - uses: actions/download-artifact@v3
+    #- uses: actions/checkout@v3
+      uses: actions/download-artifact@v3
       with:
         name: my-app-artifact
         path: target/
