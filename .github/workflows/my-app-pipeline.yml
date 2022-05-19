@@ -13,6 +13,8 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    outputs:
+      final_version: ${{ steps.jar_version.outputs.new_version }}
 
     steps:
     - uses: actions/checkout@v3
@@ -22,22 +24,39 @@ jobs:
         java-version: '8'
         distribution: 'temurin'
         cache: maven
-    #- name: Set jar version
-    #  run: ???
+    
+    - name: Increment jar version
+      id: jar_version
+      run: |
+        POM_DIR=my-app
+        PREV_VERSION=$(cd $POM_DIR && mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+        prev="$PREV_VERSION"
+        parts=( ${prev//./ } )
+        v_num=$((parts[2] + 1))
+        CURR_VERSION="${parts[0]}.${parts[1]}.${v_num}"
+        echo "project version will be incremented by 1. was: " $PREV_VERSION "now: " $CURR_VERSION
+        mvn versions:set -DoldVersion="${PREV_VERSION}" -DnewVersion="${CURR_VERSION}" --file $POM_DIR/pom.xml
+        echo ::set-output name=new_version::${CURR_VERSION}
+    
     - name: Clean
       run: mvn clean --file my-app/pom.xml
+    
     - name: Compile with Maven
       run: mvn -B compile --file my-app/pom.xml
+    
     - name: Package with Maven
       run: mvn -B package --file my-app/pom.xml
+    
+    - name: Copy jar 
     - uses: actions/setup-java@v3
       with:
         java-version: '8'
         distribution: 'temurin'
     - run: mkdir artifacts && cp my-app/target/*.jar artifacts
+    
     - name: Copy to artifacts dir
       uses: actions/upload-artifact@v3
       with:
-        #name: Package
+        name: my-artifact
         path: artifacts
       
