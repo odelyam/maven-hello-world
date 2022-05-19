@@ -61,7 +61,7 @@ jobs:
         path: artifacts
  
  
-  deploy:  
+  docker-deploy:  
     runs-on: ubuntu-latest
     needs: build
     
@@ -73,7 +73,7 @@ jobs:
         
     - name: Build docker image
       run: |
-        docker build . -t odelyala/my-app:${{ needs.build.outputs.final_version }} 
+        docker build -f my-app/Dockerfile -t odelyala/my-app:${{ needs.build.outputs.final_version }} 
     
     - name: Docker hub login
       uses: docker/login-action@v2
